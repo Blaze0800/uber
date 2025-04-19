@@ -46,3 +46,31 @@ The `/users/login` endpoint allows an existing user to log in with their credent
 ### Expected Responses
 - **200 OK**: On successful login, returns an authentication token and user details.
 - **422 Unprocessable Entity**: When validation fails or credentials are incorrect.
+
+## /users/profile Endpoint Documentation
+
+### Description
+The `/users/profile` endpoint returns the authenticated user's profile data.
+
+### Authentication
+- Requires a valid token in the request header or cookie.
+
+### Example Request
+GET /users/profile
+
+### Expected Response
+- **200 OK**: Returns user profile details.
+
+## /users/logout Endpoint Documentation
+
+### Description
+The `/users/logout` endpoint logs out the user by clearing the token cookie and blacklisting the current token.
+
+### Authentication
+- Requires a valid token in the request header or cookie.
+
+### Example Request
+GET /users/logout
+
+### Expected Response
+- **200 OK**: Returns a message indicating successful logout.

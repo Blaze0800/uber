@@ -74,3 +74,44 @@ GET /users/logout
 
 ### Expected Response
 - **200 OK**: Returns a message indicating successful logout.
+
+## Captain Routes Documentation
+
+### POST /captain/register Endpoint
+
+#### Description
+Registers a new captain account. In addition to typical user information, the request must include vehicle details.
+
+#### Request Data Format
+- **email**: A valid email string.
+- **fullname**: An object containing:
+  - **firstname** (required): Minimum 3 characters.
+  - **lastname** (optional).
+- **password**: A string with at least 6 characters.
+- **vehicle**: An object containing:
+  - **color**: Minimum 3 characters.
+  - **plate**: Minimum 3 characters.
+  - **capacity**: A numeric value.
+  - **vehicleType**: Must be one of 'car', 'motorcycle', or 'auto'.
+
+##### Example Request Body
+```json
+{
+  "email": "captain@example.com",
+  "fullname": {
+    "firstname": "Captain",
+    "lastname": "Smith"
+  },
+  "password": "securePass123",
+  "vehicle": {
+    "color": "red",
+    "plate": "XYZ987",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+#### Expected Responses
+- **201 Created**: When the captain is registered successfully. Returns captain details.
+- **422 Unprocessable Entity**: When validation fails.

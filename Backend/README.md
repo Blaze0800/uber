@@ -77,12 +77,11 @@ GET /users/logout
 
 ## Captain Routes Documentation
 
-### POST /captain/register Endpoint
+#### POST /captains/register Endpoint
 
-#### Description
-Registers a new captain account. In addition to typical user information, the request must include vehicle details.
+Registers a new captain account with vehicle details.
 
-#### Request Data Format
+**Request Data Format:**
 - **email**: A valid email string.
 - **fullname**: An object containing:
   - **firstname** (required): Minimum 3 characters.
@@ -112,6 +111,50 @@ Registers a new captain account. In addition to typical user information, the re
 }
 ```
 
-#### Expected Responses
-- **201 Created**: When the captain is registered successfully. Returns captain details.
-- **422 Unprocessable Entity**: When validation fails.
+**Expected Responses:**
+- **201 Created**: Captain successfully registered; returns a token and captain details.
+- **422 Unprocessable Entity**: Validation errors.
+
+#### POST /captains/login Endpoint
+
+Authenticates an existing captain.
+
+**Request Data Format:**
+- **email**: A valid email string.
+- **password**: A string with at least 6 characters.
+
+##### Example Request Body
+```json
+{
+  "email": "captain@example.com",
+  "password": "securePass123"
+}
+```
+
+**Expected Responses:**
+- **200 OK**: Returns a token and captain details when credentials are valid.
+- **422 Unprocessable Entity** or **401 Unauthorized**: When authentication fails.
+
+#### GET /captains/profile Endpoint
+
+Returns the authenticated captain's profile data.
+- **Authentication:** Requires a valid token.
+
+**Example Request:**
+GET /captains/profile
+
+**Expected Response:**
+- **200 OK**: Returns the captain profile details.
+
+#### GET /captains/logout Endpoint
+
+Logs out the captain by removing the token.
+
+**Authentication:**
+- Requires a valid token.
+
+**Example Request:**
+GET /captains/logout
+
+**Expected Response:**
+- **200 OK**: Message confirming successful logout.

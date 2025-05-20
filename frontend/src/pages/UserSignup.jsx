@@ -1,5 +1,7 @@
-import React ,{useState} from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { UserDataContext } from '../context/userContext'
 
 const UserSignup = () => {
   const [email, setemail] = useState('')
@@ -8,17 +10,34 @@ const UserSignup = () => {
   const [lastName, setlastName] = useState('')
   const [userData, setuserData] = useState({})
 
-  const submitHandler = (e) => {
-    e.preventDefault();
-      setuserData({
-        fullName:{
-          firstName:firstName,
-          lastName:lastName
+  const navigate = useNavigate()
+
+  const context = useContext(UserDataContext)
+  if (!context) {
+	// Ensure that the component is wrapped with the proper provider
+	throw new Error("UserDataContext is undefined. Confirm that your component is wrapped in <UserDataProvider>.")
+}
+const { user, setUser } = context
+
+  const submitHandler = async (e) => {
+    e.preventDefault()
+    const newUser ={
+        fullname:{
+          firstname:firstName,
+          lastname:lastName
         },
         email:email,
         password:password
-      })
+      }
 
+    const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`, newUser)
+    if (response.status === 201){
+      const data= response.data
+      setUser(data.user)
+      localStorage.setItem('token', data.token)
+      navigate('/home')
+
+    }
       
       setemail('')
       setpassword('')
